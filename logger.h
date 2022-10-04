@@ -1,6 +1,17 @@
 #ifndef CUSTOM_LOGGER_H
 #define CUSTOM_LOGGER_H
 
+/**
+ * @file logger.h
+ * @author MeerkatBoss
+ * @brief Logging functions
+ * @version 0.1
+ * @date 2022-10-04
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
