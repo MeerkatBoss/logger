@@ -19,13 +19,13 @@ static int trash_ = atexit(log_stop);
 
 void add_logger(logger added)
 {
-    LOG_ASSERT(MSG_ERROR,
+    LOG_ASSERT(
         loggers_count_ < MAX_LOGGERS_COUNT,
         {return;});
 
     logger* log_ptr = (logger*)calloc(1, sizeof(*log_ptr));
 
-    LOG_ASSERT(MSG_ERROR,
+    LOG_ASSERT(
         log_ptr != NULL,
         {return;});
 
@@ -45,7 +45,7 @@ void add_logger(logger added)
 
 void add_custom_logger(logger* added)
 {
-    LOG_ASSERT(MSG_ERROR,
+    LOG_ASSERT(
         loggers_count_ < MAX_LOGGERS_COUNT,
         {return;});
 

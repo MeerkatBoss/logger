@@ -192,7 +192,7 @@ void log_stop(void);
  * @param[in] condition Condition to be tested against
  * @param[in] on_fail Action performed if `condition` is not met
  */
-#define LOG_ASSERT(level, condition, on_fail) do                            \
+#define LOG_ASSERT_(level, condition, on_fail) do                            \
 {                                                                           \
     if (!(condition))                                                       \
     {                                                                       \
@@ -202,6 +202,8 @@ void log_stop(void);
     }                                                                       \
 } while (0)
 
+#define LOG_ASSERT(condition, on_fail) LOG_ASSERT_(MSG_WARNING, condition, on_fail)
+
 /**
  * @brief 
  * Trace action execution. If condition is not met after execution,
@@ -210,11 +212,13 @@ void log_stop(void);
  * @param[in] operation Traced operation
  * @param[in] condition Condition needed to be met after `operation` execution
  * @param[in] on_fail   Action to be performed if `condtition` is not met
+ * @param[in] format    Error description `printf` format
+ * @param[in] ...       Error description `printf` arguments
  */
-#define LOG_CATCH_ERROR(operation, condition, on_fail) do                   \
-{                                                                           \
-    LOG_PRINT_TRACE(operation, NULL, NULL);                                 \
-    LOG_ASSERT(MSG_ERROR, condition, on_fail);                              \
+#define LOG_ASSERT_ERROR(condition, on_fail, format, ...) do        \
+{                                                                   \
+    LOG_ASSERT(condition, {                              \
+        log_message(MSG_ERROR, format, __VA_ARGS__); on_fail;});    \
 } while (0)
 
 /**
@@ -224,11 +228,13 @@ void log_stop(void);
  * 
  * @param[in] operation Traced operation
  * @param[in] condition Condition needed to be met after `operation` execution
+ * @param[in] format    Error description `printf` format
+ * @param[in] ...       Error description `printf` arguments
  */
-#define LOG_ERROR_FATAL(operation, condition) do                                        \
-{                                                                                       \
-    LOG_PRINT_TRACE(operation, NULL);                                                   \
-    LOG_ASSERT(MSG_FATAL, condition, {log_stop(); abort();});                           \
+#define LOG_ASSERT_FATAL(condition, format, ...) do                         \
+{                                                                           \
+    LOG_ASSERT_(condition, {                                      \
+        log_message(MSG_FATAL, format, __VA_ARGS__);log_stop(); abort();}); \
 } while (0)
 
 #endif
