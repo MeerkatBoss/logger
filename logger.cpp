@@ -30,17 +30,17 @@ void add_logger(logger added)
         {return;});
 
     *log_ptr = added;
-    loggers_[loggers_count_++] = log_ptr;
+    add_custom_logger(log_ptr);
+    // loggers_[loggers_count_++] = log_ptr;
 
-    setbuf(added.stream, NULL);
+    // setbuf(added.stream, NULL);
 
-    if(added.settings_mask & LGS_USE_HTML)
-    {
-        fputs("<!DOCTYPE html>",added.stream);
-        fprintf(added.stream, "<head><title>%s</title></head>", added.name);
-        fputs("<body><pre>", added.stream);
-    }
-
+    // if(added.settings_mask & LGS_USE_HTML)
+    // {
+    //     fputs("<!DOCTYPE html>",added.stream);
+    //     fprintf(added.stream, "<head><title>%s</title></head>", added.name);
+    //     fputs("<body><pre>", added.stream);
+    // }
 }
 
 void add_custom_logger(logger* added)
@@ -58,6 +58,7 @@ void add_custom_logger(logger* added)
         fprintf(added->stream, "<head><title>%s</title></head>", added->name);
         fputs("<body><pre>", added->stream);
     }
+    log_message(MSG_INFO, "Started logging at \'%s\'", added->name);
 }
 
 void add_default_file_logger(void)
