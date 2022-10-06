@@ -7,7 +7,7 @@
 
 #define MSG_TRACE_TEXT  "~trace~"
 #define MSG_INFO_TEXT   "Info"
-#define MSG_WARNING_TEXT "WARNING"
+#define MSG_WARNING_TEXT "WARN"
 #define MSG_ERROR_TEXT  "ERROR"
 #define MSG_FATAL_TEXT  "!!FATAL!!"
 
