@@ -233,7 +233,7 @@ void log_stop(void);
  */
 #define LOG_ASSERT_FATAL(condition, format, ...) do                         \
 {                                                                           \
-    LOG_ASSERT_(condition, {                                      \
+    LOG_ASSERT(condition, {                                      \
         log_message(MSG_FATAL, format, __VA_ARGS__);log_stop(); abort();}); \
 } while (0)
 
