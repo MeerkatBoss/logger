@@ -81,7 +81,7 @@ void add_default_console_logger(void)
     });
 }
 
-void log_message(message_level level, const char* format, ...)
+void log_message(message_level level, const char* format, ...)/* TODO: very messy code, fix*/
 {
     #define COLORED_CASE(var, type, setting) case MSG_##type:\
             var = TEXT_##setting##_##type (MSG_##type##_TEXT); break;
@@ -110,7 +110,8 @@ void log_message(message_level level, const char* format, ...)
     for (size_t i = 0; i < loggers_count_; i++)
     {
         logger* current_logger = loggers_[i];
-        if (paused && !(current_logger->settings_mask & LGS_LOG_ALWAYS))
+        if (paused && !(current_logger->settings_mask & LGS_LOG_ALWAYS)
+                || current_logger->logging_level > level)
             continue;
         
         if (current_logger->settings_mask & LGS_USE_ESCAPE)

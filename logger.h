@@ -58,7 +58,8 @@ enum logger_settings
     LGS_USE_HTML    = 0002, /*!< Use HTML format for logs.
                                     This option is ignored if `LGS_USE_ESCAPE` is set */
     LGS_LOG_ALWAYS  = 0004, /*!< Ignore pausing logs*/
-    LGS_KEEP_OPEN   = 0006  /*!< Do not close logger stream */
+    LGS_KEEP_OPEN   = 0010  /*!< Do not close logger stream */
+    /* TODO: LGS_HIDE_TIME */
 };
 
 /**
@@ -154,21 +155,21 @@ void log_stop(void);
  * @param[in] state_format `printf` format string
  * @param[in] ... `printf` arguments
  */
-#define LOG_PRINT_TRACE(operation, state_format, ...) do                    \
-{                                                                           \
-    log_message(MSG_TRACE, "Performing operation %s in %s:%zu, file: %s",   \
-        #operation, __PRETTY_FUNCTION__, __LINE__, __FILE__);               \
-    if (state_format && *(const char*)(state_format))                       \
-    {                                                                       \
-        log_message(MSG_TRACE, "State before execution:");                  \
-        log_message(MSG_TRACE, state_format, __VA_ARGS__);                  \
-    }                                                                       \
-    operation;                                                              \
-    if (state_format && *(const char*)(state_format))                       \
-    {                                                                       \
-        log_message(MSG_TRACE, "State after execution:");                   \
-        log_message(MSG_TRACE, state_format, __VA_ARGS__);                  \
-    }                                                                       \
+#define LOG_PRINT_TRACE(operation, state_format, ...) do                            \
+{                                                                                   \
+    log_message(MSG_TRACE, "Performing operation \'%s\' in \'%s:%zu\', file: %s",   \
+        #operation, __PRETTY_FUNCTION__, __LINE__, __FILE__);                       \
+    if (state_format && *(const char*)(state_format))                               \
+    {                                                                               \
+        log_message(MSG_TRACE, "State before execution:");                          \
+        log_message(MSG_TRACE, state_format, __VA_ARGS__);                          \
+    }                                                                               \
+    operation;                                                                      \
+    if (state_format && *(const char*)(state_format))                               \
+    {                                                                               \
+        log_message(MSG_TRACE, "State after execution:");                           \
+        log_message(MSG_TRACE, state_format, __VA_ARGS__);                          \
+    }                                                                               \
 } while (0)
 #else
 /**
@@ -192,14 +193,14 @@ void log_stop(void);
  * @param[in] condition Condition to be tested against
  * @param[in] on_fail Action performed if `condition` is not met
  */
-#define LOG_ASSERT_(level, condition, on_fail) do                            \
-{                                                                           \
-    if (!(condition))                                                       \
-    {                                                                       \
-        log_message(level, "Condition %s not met in %s:%zu, file: %s",      \
-            #condition, __PRETTY_FUNCTION__, __LINE__, __FILE__);           \
-        on_fail;                                                            \
-    }                                                                       \
+#define LOG_ASSERT_(level, condition, on_fail) do                               \
+{                                                                               \
+    if (!(condition))                                                           \
+    {                                                                           \
+        log_message(level, "Condition \'%s\' not met in \'%s:%zu\', file: %s",  \
+            #condition, __PRETTY_FUNCTION__, __LINE__, __FILE__);               \
+        on_fail;                                                                \
+    }                                                                           \
 } while (0)
 
 #define LOG_ASSERT(condition, on_fail) LOG_ASSERT_(MSG_WARNING, condition, on_fail)
@@ -217,7 +218,7 @@ void log_stop(void);
  */
 #define LOG_ASSERT_ERROR(condition, on_fail, format, ...) do        \
 {                                                                   \
-    LOG_ASSERT(condition, {                              \
+    LOG_ASSERT(condition, {                                         \
         log_message(MSG_ERROR, format, __VA_ARGS__); on_fail;});    \
 } while (0)
 
@@ -233,7 +234,7 @@ void log_stop(void);
  */
 #define LOG_ASSERT_FATAL(condition, format, ...) do                         \
 {                                                                           \
-    LOG_ASSERT(condition, {                                      \
+    LOG_ASSERT(condition, {                                                 \
         log_message(MSG_FATAL, format, __VA_ARGS__);log_stop(); abort();}); \
 } while (0)
 
