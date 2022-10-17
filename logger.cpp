@@ -110,8 +110,8 @@ void log_message(message_level level, const char* format, ...)/* TODO: very mess
     for (size_t i = 0; i < loggers_count_; i++)
     {
         logger* current_logger = loggers_[i];
-        if (paused && !(current_logger->settings_mask & LGS_LOG_ALWAYS)
-                || current_logger->logging_level > level)
+        if ((paused && !(current_logger->settings_mask & LGS_LOG_ALWAYS))
+                || (int)current_logger->logging_level > (int)level)
             continue;
         
         if (current_logger->settings_mask & LGS_USE_ESCAPE)
