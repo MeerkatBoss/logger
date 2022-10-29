@@ -25,9 +25,9 @@
 #define TEXT_HTML_GREEN    "<span style=\"color:green\">"
 #define TEXT_HTML_YELLOW   "<span style=\"color:yellow\">"
 #define TEXT_HTML_MAGENTA  "<span style=\"color:magenta\""
-#define TEXT_HTML_BLUE     "<span style=\"color:blue\">"
+#define TEXT_HTML_BLUE     "<span style=\"color:dodgerblue\">"
 #define TEXT_HTML_CYAN     "<span style=\"color:cyan\">"
-#define TEXT_HTML_GRAY     "<span style=\"color:gray\">"
+#define TEXT_HTML_GRAY     "<span style=\"color:lightsteelblue\">"
 
 #define TEXT_HTML_FATAL(str)    TEXT_HTML_RED       str TEXT_HTML_END
 #define TEXT_HTML_ERROR(str)    TEXT_HTML_MAGENTA   str TEXT_HTML_END

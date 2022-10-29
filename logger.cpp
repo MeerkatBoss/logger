@@ -54,9 +54,9 @@ void add_custom_logger(logger* added)
 
     if(added->settings_mask & LGS_USE_HTML)
     {
-        fputs("<!DOCTYPE html>",added->stream);
-        fprintf(added->stream, "<head><title>%s</title></head>", added->name);
-        fputs("<body><pre>", added->stream);
+        // fputs("<!DOCTYPE html>\n",added->stream);
+        // fprintf(added->stream, "<head><title>%s</title></head>\n", added->name);
+        fputs("<body style=\"background: midnightblue; color: lavender\"><pre>\n", added->stream);
     }
     log_message(MSG_INFO, "Started logging at \'%s\'", added->name);
 }
@@ -127,7 +127,7 @@ void log_message(message_level level, const char* format, ...)/* TODO: very mess
             const char* msg_type = "";
             ALL_CASES(level, msg_type, HTML)
             fprintf(current_logger->stream,
-                    "<p>" TEXT_HTML_NOTE("%s") "\t[%s]:\t",
+                    TEXT_HTML_NOTE("%s") "\t[%s]:\t",
                     time_str, msg_type);
         }
         else
@@ -149,10 +149,7 @@ void log_message(message_level level, const char* format, ...)/* TODO: very mess
         va_copy(tmp_vlist, vlist);
         vfprintf(current_logger->stream, format, tmp_vlist);
 
-        if (current_logger->settings_mask & LGS_USE_HTML)
-            fputs("</p>\n", current_logger->stream);
-        else
-            fputc('\n', current_logger->stream);
+        fputc('\n', current_logger->stream);
     }
 
     va_end(vlist);
